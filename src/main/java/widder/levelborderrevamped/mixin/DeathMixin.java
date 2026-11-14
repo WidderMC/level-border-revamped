@@ -15,6 +15,7 @@ public class DeathMixin {
 
     @Inject(method = "dropExperience", at = @At("HEAD"), cancellable = true)
     private void dropExperienceMixin(CallbackInfo ci) {
+        if (!Config.INSTANCE.Enabled) return;
         if ((Object) this instanceof ServerPlayer player) {
             MinecraftServer server = player.level().getServer();
             if (player == null) return;

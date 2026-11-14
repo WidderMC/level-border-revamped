@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import widder.levelborderrevamped.Config;
 import widder.levelborderrevamped.XPManager;
 
 @Mixin(Player.class)
@@ -18,6 +19,7 @@ public class XPMixin {
 
     @Inject(method = "giveExperiencePoints", at = @At("TAIL"))
     private void XPMixin(CallbackInfo ci){
+        if (!Config.INSTANCE.Enabled) return;
         if (levelbordermerging) return;
         if (!((Object) this instanceof ServerPlayer player)) return;
 

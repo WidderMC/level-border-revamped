@@ -12,7 +12,9 @@ import java.nio.file.Path;
 public class Config {
     public  boolean resetXPByDeath = true;
     public int globalXp = 0;
-    public boolean borderEnabled = false;
+    public int currentXP = 0;
+    public boolean resetBorderByDeath = false;
+    public boolean Enabled = false;
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     public static Config INSTANCE;
