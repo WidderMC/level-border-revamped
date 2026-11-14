@@ -1,30 +1,33 @@
 package widder.levelborderrevamped;
 
 import net.fabricmc.api.ModInitializer;
-
-import net.minecraft.resources.Identifier;
-
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.minecraft.server.MinecraftServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class LevelBorderRevamped implements ModInitializer {
 	public static final String MOD_ID = "level--border-revamped";
-
-	// This logger is used to write text to the console and the log file.
-	// It is considered best practice to use your mod id as the logger's name.
-	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 	@Override
 	public void onInitialize() {
-		// This code runs as soon as Minecraft is in a mod-load-ready state.
-		// However, some things (like resources) may still be uninitialized.
-		// Proceed with mild caution.
+		ServerLifecycleEvents.SERVER_STARTING.register(Config::load);
+		ServerLifecycleEvents.SERVER_STOPPING.register(server -> Config.save());
+		ServerLifecycleEvents.AFTER_SAVE.register((server, flush, force) -> Config.save());
 
-		LOGGER.info("Hello Fabric world!");
-	}
+		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+			XPManager.MergeXP(server, false, handler.player);
+		});
 
-	public static Identifier id(String path) {
-		return Identifier.fromNamespaceAndPath(MOD_ID, path);
+		ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> {
+			MinecraftServer server = newPlayer.level().getServer();
+			if (!alive) XPManager.MergeXP(server, false, newPlayer);
+		});
+
+
+		LOGGER.info("Level = Border Revamped loaded successfully");
 	}
 }

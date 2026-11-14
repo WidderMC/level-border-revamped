@@ -3,13 +3,13 @@
 	"id": "level--border-revamped",
 	"version": "${version}",
 	"name": "Level = Border Revamped",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Adds a border that expands as your level increases. Playable with friends!",
 	"authors": [
-		"Me!"
+		"Widder"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://modrinth.com/user/Widder",
+		"sources": "https://github.com/WidderMC/level-border-revamped"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/level--border-revamped/icon.png",

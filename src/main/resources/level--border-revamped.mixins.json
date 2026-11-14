@@ -3,7 +3,8 @@
 	"package": "widder.levelborderrevamped.mixin",
 	"compatibilityLevel": "JAVA_25",
 	"mixins": [
-		"ExampleMixin"
+		"XPMixin",
+		"DeathMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
