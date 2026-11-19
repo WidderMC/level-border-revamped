@@ -10,11 +10,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class Config {
-    public  boolean resetXPByDeath = true;
-    public int globalXp = 0;
-    public int currentXP = 0;
-    public boolean resetBorderByDeath = false;
     public boolean Enabled = false;
+    public boolean resetBorderByDeath = false;
+    public boolean resetXPByDeath = true;
+    public boolean AutoExpand = true;
+    public boolean OriginalNetherBorder = true;
+    public int globalXp = 0;
+    public int currentLevel = 0;
+    public int startSize = 1;
+    public int blocksPerLevel = 1;
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     public static Config INSTANCE;

@@ -21,7 +21,7 @@ public class CommandsRegister {
                                 .then(Commands.argument("value", BoolArgumentType.bool())
                                         .executes(context ->
                                                 ResetXPAfterDeath.ResetXPAfterDeathCommand(
-                                                        context, false, BoolArgumentType.getBool(context,"value")))))
+                                                        context,false, BoolArgumentType.getBool(context,"value")))))
 
                         .then(Commands.literal("ResetBorderByDeath")
                                 .executes(context ->
@@ -29,7 +29,7 @@ public class CommandsRegister {
                                 .then(Commands.argument("value", BoolArgumentType.bool())
                                         .executes(context ->
                                                 ResetBorderByDeath.ResetBorderByDeathCommand(
-                                                        context,false,BoolArgumentType.getBool(context, "value")))))
+                                                        context,false,BoolArgumentType.getBool(context,"value")))))
 
                         .then(Commands.literal("EnableMod")
                                 .executes(context ->
@@ -37,11 +37,19 @@ public class CommandsRegister {
                                 .then(Commands.argument("value", BoolArgumentType.bool())
                                         .executes(context ->
                                                 EnableMod.EnableModCommand(
-                                                        context, false,BoolArgumentType.getBool(context, "value")
-                                                )
-                                        )
-                                )
-                        )
+                                                        context,false,BoolArgumentType.getBool(context,"value")))))
+
+                        .then(Commands.literal("AutoExpand")
+                                .executes(context ->
+                                        AutoExpand.AutoExpandCommand(context,true,false))
+                                .then(Commands.argument("value", BoolArgumentType.bool())
+                                        .executes(context ->
+                                                AutoExpand.AutoExpandCommand(
+                                                        context,false,BoolArgumentType.getBool(context,"value")))))
+
+                        .then(Commands.literal("Expand")
+                                .executes(context ->
+                                        Expand.ExpandCommand(context)))
                 )
         );
     }
