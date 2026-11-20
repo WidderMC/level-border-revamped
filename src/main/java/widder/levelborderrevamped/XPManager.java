@@ -1,11 +1,13 @@
 package widder.levelborderrevamped;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 public class XPManager {
 
@@ -23,15 +25,33 @@ public class XPManager {
             MaxXPInt = Config.INSTANCE.globalXp;
         }
 
+        BlockPos spawn = server.overworld().getRespawnData().pos();
         for (ServerPlayer player : players) {
             player.experienceLevel = 0;
             player.experienceProgress = 0;
             player.totalExperience = 0;
             if (reset) {
                 player.giveExperiencePoints(0);
+                Config.INSTANCE.globalXp = 0;
+                if (!Config.INSTANCE.resetBorderByDeath) {
+                    player.teleportTo(server.overworld(),spawn.getX()+0.5,spawn.getY(),spawn.getZ()+0.5, Set.of(),player.getYRot(),player.getXRot(),true);
+                }
             }else {
                 player.giveExperiencePoints(MaxXPInt);
             }
         }
+
+        if (!reset && Config.INSTANCE.AutoExpand) {
+            int level = players.get(0).experienceLevel;
+            if (level > Config.INSTANCE.currentLevel) {
+                FakeBorder.setBorder(server,level,true);
+            }
+        }
+    }
+
+    public static int getLevel(MinecraftServer server) {
+        List<ServerPlayer> players = server.getPlayerList().getPlayers();
+        if (players.isEmpty()) return Config.INSTANCE.currentLevel;
+        return players.get(0).experienceLevel;
     }
 }

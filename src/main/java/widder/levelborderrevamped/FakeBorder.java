@@ -1,6 +1,7 @@
 package widder.levelborderrevamped;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.protocol.game.ClientboundInitializeBorderPacket;
 import net.minecraft.network.protocol.game.ClientboundSetBorderLerpSizePacket;
 import net.minecraft.network.protocol.game.ClientboundSetBorderSizePacket;
 import net.minecraft.resources.ResourceKey;
@@ -11,9 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.border.WorldBorder;
 
 public class FakeBorder {
-    private static double safeZone = 0.0;
-    private static double damagePerBlock = 0.2;
-    private static double speedBlocksPerSecond = 1.0;
+    private static double speedBlocksPerSecond = 2.0;
 
     private static final WorldBorder OVERWORLD = new WorldBorder();
     private static final WorldBorder NETHER = new WorldBorder();
@@ -33,6 +32,19 @@ public class FakeBorder {
         }else {
             border.setSize(to);
             server.getPlayerList().broadcastAll(new ClientboundSetBorderSizePacket(border), dim);
+        }
+    }
+
+    public static double getBorderSize(ServerPlayer player, boolean nether) {
+        int level = player.experienceLevel;
+        if (!(level > Config.INSTANCE.currentLevel)) {
+            level = Config.INSTANCE.currentLevel;
+        }
+        double rawSize = sizeForLevel(level);
+        if (!nether){
+            return Math.round(Math.max(1.0,rawSize*netherFactor()));
+        }else {
+            return Math.round(rawSize);
         }
     }
 
@@ -70,7 +82,7 @@ public class FakeBorder {
             if (border.isWithinBounds(player.getBoundingBox())) continue;
 
             double dist = border.getDistanceToBorder(player) + border.getSafeZone();
-            if (dist >= 0) continue;
+            if (dist > -1) continue;
             double dmgPerBlock = border.getDamagePerBlock();
             if (dmgPerBlock <= 0) continue;
 
@@ -85,5 +97,20 @@ public class FakeBorder {
         long ticks = Math.max(1, (long) (Math.abs(to - OVERWORLD.getSize()) / speedBlocksPerSecond * 20));
         resize(server, OVERWORLD, to, Level.OVERWORLD, animate, ticks);
         resize(server, NETHER, Math.max(1.0, to * netherFactor()), Level.NETHER, animate, ticks);
+    }
+
+    public static void resendAll(MinecraftServer server) {
+        for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+            WorldBorder border;
+            if (Config.INSTANCE.Enabled) {
+                border = forDimension(player.level().dimension());
+            } else {
+                border = null;
+            }
+            if (border == null) {
+                border = player.level().getWorldBorder();
+            }
+            player.connection.send(new ClientboundInitializeBorderPacket(border));
+        }
     }
 }

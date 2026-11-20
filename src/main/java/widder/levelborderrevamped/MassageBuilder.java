@@ -12,7 +12,7 @@ public class MassageBuilder {
 
     private static MutableComponent prefix() {
         return Component.empty()
-                .append(Component.literal("[Level=Border] ")
+                .append(Component.literal("[L=B] ")
                         .withStyle(style ->
                                 style.withColor(ChatFormatting.BLUE)
                                         .withBold(true)));

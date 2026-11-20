@@ -50,15 +50,11 @@ public class LevelBorderRevamped implements ModInitializer {
 		LOGGER.info("Level = Border Revamped loaded successfully");
 	}
 }
-
 /*
-			ToDo´s
-
-	- resetXPByDeath and resetBorderByDeath work Properly
-
-	- resetBorderByDeath
-
-	- WorldBorder
-
-	- Commands
+ToDo´s
+- getBorderSize() rework
+- MassageBuilder (Prefix, Color)
+- Commands
+- Reset Border save tp
+- Nether Portal outside border fix
  */
