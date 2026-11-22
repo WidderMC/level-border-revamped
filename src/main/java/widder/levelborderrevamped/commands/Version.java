@@ -7,8 +7,7 @@ import widder.levelborderrevamped.MassageBuilder;
 
 public class Version {
     public static int VersionCommand(CommandContext<CommandSourceStack> context) {
-        String text = "runs on version V" + LevelBorderRevamped.VERSION;
-        MassageBuilder.sendMassage(context, text, false);
+        MassageBuilder.send(context,"{} runs on version {}",MassageBuilder.text("[Level = Border Revamped]"), MassageBuilder.text("V"+ LevelBorderRevamped.VERSION));
         return 0;
     }
 }

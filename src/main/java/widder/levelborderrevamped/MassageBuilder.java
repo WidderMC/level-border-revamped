@@ -8,33 +8,34 @@ import net.minecraft.network.chat.Style;
 
 public class MassageBuilder {
     private static final Style INFO = Style.EMPTY.withColor(ChatFormatting.DARK_AQUA);
-    private static final Style ERROR = Style.EMPTY.withColor(ChatFormatting.DARK_RED);
+    private static final Style DISABLE = Style.EMPTY.withColor(ChatFormatting.DARK_RED);
+    private static final Style ENABLE = Style.EMPTY.withColor(ChatFormatting.GREEN);
+    private static final Style TEXT = Style.EMPTY.withColor(ChatFormatting.BLUE);
+    private static final Style VALUE = Style.EMPTY.withColor(ChatFormatting.YELLOW);
 
-    private static MutableComponent prefix() {
-        return Component.empty()
-                .append(Component.literal("[L=B] ")
-                        .withStyle(style ->
-                                style.withColor(ChatFormatting.BLUE)
-                                        .withBold(true)));
+    public static MutableComponent value(Object value) {
+        return Component.literal(String.valueOf(value)).withStyle(VALUE);
     }
 
-    private static MutableComponent info(String text) {
-        return Component.empty()
-                .append(prefix())
-                .append(Component.literal(text).withStyle(INFO));
+    public static MutableComponent text(Object value) {
+        return Component.literal(String.valueOf(value)).withStyle(TEXT);
     }
 
-    private static MutableComponent error(String text) {
-        return Component.empty()
-                .append(prefix())
-                .append(Component.literal(text)).withStyle(ERROR);
+    public static MutableComponent bool(boolean b) {
+        return b ? Component.literal("enabled").withStyle(ENABLE)
+                 : Component.literal("disabled").withStyle(DISABLE);
     }
 
-    public static void sendMassage(CommandContext<CommandSourceStack> context, String text, boolean error) {
-        if (error) {
-            context.getSource().sendSuccess(() -> error(text),false);
-        }else {
-            context.getSource().sendSuccess(() -> info(text),false);
+    public static void send(CommandContext<CommandSourceStack> context, String text, MutableComponent... values) {
+        MutableComponent msg = Component.empty();
+        String[] parts = text.split("\\{\\}", -1);
+
+        for (int i = 0; i < parts.length; i++) {
+            msg.append(Component.literal(parts[i]).withStyle(INFO));
+            if (i < values.length && i < parts.length -1) {
+                msg.append(values[i]);
+            }
         }
+        context.getSource().sendSuccess(() -> msg, false);
     }
 }

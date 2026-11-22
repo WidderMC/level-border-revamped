@@ -8,31 +8,39 @@ import widder.levelborderrevamped.MassageBuilder;
 
 public class Info {
     public static int InfoCommand(CommandContext<CommandSourceStack> context) {
-        MassageBuilder.sendMassage(context, "Infos about the World", false);
-        String t1 = Config.INSTANCE.Enabled ? "enable" : "disable";
-        MassageBuilder.sendMassage(context, "Level=Border is: " + t1, false);
-        if (!Config.INSTANCE.Enabled) return 0;
-        String t2 = Config.INSTANCE.resetBorderByDeath ? "enable" : "disable";
-        MassageBuilder.sendMassage(context, "ResetBorderByDeath is: " + t2, false);
-        String t3 = Config.INSTANCE.resetXPByDeath ? "enable" : "disable";
-        MassageBuilder.sendMassage(context, "ResetXPByDeath is: " + t3, false);
-        String t4 = Config.INSTANCE.AutoExpand ? "enable" : "disable";
-        MassageBuilder.sendMassage(context, "AutoExpand is: " + t4, false);
-        String t5 = Config.INSTANCE.OriginalNetherBorder ? "enable" : "disable";
-        MassageBuilder.sendMassage(context, "OriginalNetherBorder is: " + t5, false);
-        String t6 = String.valueOf(Config.INSTANCE.globalXp);
-        MassageBuilder.sendMassage(context, "Your GlobalXp is: " + t6, false);
-        String t7 = String.valueOf(Config.INSTANCE.currentLevel);
-        MassageBuilder.sendMassage(context, "Your CurrentLevel is: " + t7, false);
-        String t8 = String.valueOf(Config.INSTANCE.startSize);
-        MassageBuilder.sendMassage(context, "Your StartSize is: " + t8, false);
-        String t9 = String.valueOf(Config.INSTANCE.blocksPerLevel);
-        MassageBuilder.sendMassage(context, "Your BlocksPerLevel is: " + t9, false);
-        String t10 = String.valueOf(FakeBorder.getBorderSize(context.getSource().getPlayer(),false));
-        MassageBuilder.sendMassage(context, "The Overworld Border is on: " + t10, false);
-        String t11 = String.valueOf(FakeBorder.getBorderSize(context.getSource().getPlayer(),true));
-        MassageBuilder.sendMassage(context, "The Nether Border is on: " + t11, false);
-        MassageBuilder.sendMassage(context, "You can change the values via command bevor you enable the mod", false);
+        MassageBuilder.send(context,"World settings from {}:",MassageBuilder.text("[Level = Border Revamped]"));
+        MassageBuilder.send(context," - [Level = Border Revamped] is {}",MassageBuilder.bool(Config.INSTANCE.Enabled));
+        MassageBuilder.send(context," - Reset Border on Death: {}",MassageBuilder.bool(Config.INSTANCE.ResetBorderByDeath));
+        MassageBuilder.send(context," - Reset XP on Death: {}",MassageBuilder.bool(Config.INSTANCE.ResetXPByDeath));
+        MassageBuilder.send(context," - Auto Expand: {}",MassageBuilder.bool(Config.INSTANCE.AutoExpand));
+        MassageBuilder.send(context," - Original Nether Border: {}",MassageBuilder.bool(Config.INSTANCE.OriginalNetherBorder));
+        MassageBuilder.send(context," - Global XP: {}",MassageBuilder.value(Config.INSTANCE.GlobalXp));
+        MassageBuilder.send(context," - Current Level: {}",MassageBuilder.value(Config.INSTANCE.CurrentLevel));
+        MassageBuilder.send(context," - Starting Size: {}",MassageBuilder.value(Config.INSTANCE.StartSize));
+        MassageBuilder.send(context," - Blocks per Level: {}",MassageBuilder.value(Config.INSTANCE.BlocksPerLevel));
+        MassageBuilder.send(context," - Overworld Border: {}",MassageBuilder.value(String.format("%.0f",FakeBorder.getBorderSize(false))));
+        MassageBuilder.send(context," - Nether Border: {}",MassageBuilder.value(String.format("%.2f",FakeBorder.getBorderSize(true))));
+        MassageBuilder.send(context,"");
+        MassageBuilder.send(context,"You can change these settings using commands before enabling the mod.");
+
+
+
+        /*
+        MassageBuilder.send(context,"World settings from {}:",MassageBuilder.text("[Level = Border Revamped]"));
+        MassageBuilder.send(context," - {} is {}",MassageBuilder.text("[Level = Border Revamped]"),MassageBuilder.bool(Config.INSTANCE.Enabled));
+        MassageBuilder.send(context," - {} is {}", MassageBuilder.text("ResetBorderByDeath"),MassageBuilder.bool(Config.INSTANCE.ResetBorderByDeath));
+        MassageBuilder.send(context," - {} is {}",MassageBuilder.text("ResetXPByDeath"), MassageBuilder.bool(Config.INSTANCE.ResetXPByDeath));
+        MassageBuilder.send(context," - {} is {}",MassageBuilder.text("AutoExpand"),MassageBuilder.bool(Config.INSTANCE.AutoExpand));
+        MassageBuilder.send(context," - {} is {}",MassageBuilder.text("OriginalNetherBorder"), MassageBuilder.bool(Config.INSTANCE.OriginalNetherBorder));
+        MassageBuilder.send(context," - Your {} is on {}", MassageBuilder.text("GlobalXp"),MassageBuilder.value(Config.INSTANCE.GlobalXp));
+        MassageBuilder.send(context," - Your {} is on {}",MassageBuilder.text("CurrentLevel"),MassageBuilder.value(Config.INSTANCE.CurrentLevel));
+        MassageBuilder.send(context," - The {} is on {}", MassageBuilder.text("StartSize"),MassageBuilder.value(Config.INSTANCE.StartSize));
+        MassageBuilder.send(context," - The {} is on {} Blocks",MassageBuilder.text("BlocksPerLevel"),MassageBuilder.value(Config.INSTANCE.BlocksPerLevel));
+        MassageBuilder.send(context," - The {} in {} Blocks",MassageBuilder.text("Overworld Border"), MassageBuilder.value(FakeBorder.getBorderSize(context.getSource().getPlayer(),false)));
+        MassageBuilder.send(context," - The {} in {} Blocks",MassageBuilder.text("Nether Border"), MassageBuilder.value(FakeBorder.getBorderSize(context.getSource().getPlayer(),false)));
+        MassageBuilder.send(context,"");
+        MassageBuilder.send(context,"You can change these settings using commands before enabling the mod.");
+         */
         return 0;
     }
 }

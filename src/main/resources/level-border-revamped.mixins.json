@@ -5,7 +5,9 @@
 	"mixins": [
 		"XPMixin",
 		"DeathMixin",
-		"WorldBorderMixin"
+		"WorldBorderMixin",
+		"GetPortalDestinationMixin",
+		"PortalForceMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

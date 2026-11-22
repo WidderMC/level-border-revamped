@@ -18,7 +18,7 @@ public class FakeBorder {
     private static final WorldBorder NETHER = new WorldBorder();
 
     private static double sizeForLevel(int level) {
-        return Config.INSTANCE.startSize + level * Config.INSTANCE.blocksPerLevel;
+        return Config.INSTANCE.StartSize + level * Config.INSTANCE.BlocksPerLevel;
     }
 
     private static double netherFactor() {
@@ -35,17 +35,9 @@ public class FakeBorder {
         }
     }
 
-    public static double getBorderSize(ServerPlayer player, boolean nether) {
-        int level = player.experienceLevel;
-        if (!(level > Config.INSTANCE.currentLevel)) {
-            level = Config.INSTANCE.currentLevel;
-        }
-        double rawSize = sizeForLevel(level);
-        if (!nether){
-            return Math.round(Math.max(1.0,rawSize*netherFactor()));
-        }else {
-            return Math.round(rawSize);
-        }
+    public static double getBorderSize(boolean nether) {
+        WorldBorder border = nether ? NETHER : OVERWORLD;
+        return border.getSize();
     }
 
     public static WorldBorder forDimension(ResourceKey<Level> dim) {
@@ -66,7 +58,7 @@ public class FakeBorder {
             BORDER.setWarningBlocks(1);
             BORDER.setWarningTime(0);
         }
-        double size = sizeForLevel(Config.INSTANCE.currentLevel);
+        double size = sizeForLevel(Config.INSTANCE.CurrentLevel);
         OVERWORLD.setSize(size);
         NETHER.setSize(Math.max(1.0,size*netherFactor()));
     }
@@ -91,7 +83,7 @@ public class FakeBorder {
     }
 
     public static void setBorder(MinecraftServer server, int level, boolean animate) {
-        Config.INSTANCE.currentLevel = level;
+        Config.INSTANCE.CurrentLevel = level;
         double to = sizeForLevel(level);
 
         long ticks = Math.max(1, (long) (Math.abs(to - OVERWORLD.getSize()) / speedBlocksPerSecond * 20));

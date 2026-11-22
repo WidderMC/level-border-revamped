@@ -18,11 +18,11 @@ public class XPManager {
 
         ServerPlayer MaxXP = players.stream().max(Comparator.comparingInt(p -> p.totalExperience)).orElse(null);
         int MaxXPInt = 0;
-        if (MaxXP.totalExperience > Config.INSTANCE.globalXp) {
+        if (MaxXP.totalExperience > Config.INSTANCE.GlobalXp) {
             MaxXPInt = MaxXP.totalExperience;
-            Config.INSTANCE.globalXp = MaxXPInt;
+            Config.INSTANCE.GlobalXp = MaxXPInt;
         } else {
-            MaxXPInt = Config.INSTANCE.globalXp;
+            MaxXPInt = Config.INSTANCE.GlobalXp;
         }
 
         BlockPos spawn = server.overworld().getRespawnData().pos();
@@ -32,8 +32,8 @@ public class XPManager {
             player.totalExperience = 0;
             if (reset) {
                 player.giveExperiencePoints(0);
-                Config.INSTANCE.globalXp = 0;
-                if (!Config.INSTANCE.resetBorderByDeath) {
+                Config.INSTANCE.GlobalXp = 0;
+                if (Config.INSTANCE.ResetBorderByDeath) {
                     player.teleportTo(server.overworld(),spawn.getX()+0.5,spawn.getY(),spawn.getZ()+0.5, Set.of(),player.getYRot(),player.getXRot(),true);
                 }
             }else {
@@ -43,7 +43,7 @@ public class XPManager {
 
         if (!reset && Config.INSTANCE.AutoExpand) {
             int level = players.get(0).experienceLevel;
-            if (level > Config.INSTANCE.currentLevel) {
+            if (level > Config.INSTANCE.CurrentLevel) {
                 FakeBorder.setBorder(server,level,true);
             }
         }
@@ -51,7 +51,7 @@ public class XPManager {
 
     public static int getLevel(MinecraftServer server) {
         List<ServerPlayer> players = server.getPlayerList().getPlayers();
-        if (players.isEmpty()) return Config.INSTANCE.currentLevel;
+        if (players.isEmpty()) return Config.INSTANCE.CurrentLevel;
         return players.get(0).experienceLevel;
     }
 }

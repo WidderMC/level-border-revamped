@@ -37,6 +37,10 @@ public class LevelBorderRevamped implements ModInitializer {
 		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
 			if (Config.INSTANCE.Enabled) {
 				XPManager.MergeXP(server, false, handler.player);
+
+				if (SafeSpawn.isOutSide(handler.getPlayer())) {
+					SafeSpawn.tpToSafeSpawn(handler.getPlayer());
+				}
 			}
 		});
 
@@ -44,17 +48,17 @@ public class LevelBorderRevamped implements ModInitializer {
 			if (Config.INSTANCE.Enabled) {
 				MinecraftServer server = newPlayer.level().getServer();
 				if (!alive) XPManager.MergeXP(server, false, newPlayer);
+
+				if (SafeSpawn.isOutSide(newPlayer)) {
+					SafeSpawn.tpToSafeSpawn(newPlayer);
+				}
 			}
 		});
 
-		LOGGER.info("Level = Border Revamped loaded successfully");
+		LOGGER.info("[Level = Border Revamped] loaded successfully");
 	}
 }
 /*
 ToDo´s
-- getBorderSize() rework
-- MassageBuilder (Prefix, Color)
 - Commands
-- Reset Border save tp
-- Nether Portal outside border fix
  */

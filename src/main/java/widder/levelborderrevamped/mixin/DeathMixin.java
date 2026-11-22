@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import widder.levelborderrevamped.Config;
 import widder.levelborderrevamped.FakeBorder;
+import widder.levelborderrevamped.SafeSpawn;
 import widder.levelborderrevamped.XPManager;
 
 @Mixin(LivingEntity.class)
@@ -20,14 +21,19 @@ public class DeathMixin {
         if ((Object) this instanceof ServerPlayer player) {
             MinecraftServer server = player.level().getServer();
             if (server == null) return;
-            if (!Config.INSTANCE.resetXPByDeath) {
+            if (!Config.INSTANCE.ResetXPByDeath) {
                XPManager.MergeXP(server, false, null);
                ci.cancel();
             }else {
                 XPManager.MergeXP(server, true, null);
-                if (Config.INSTANCE.resetBorderByDeath) {
+                if (Config.INSTANCE.ResetBorderByDeath) {
                     FakeBorder.setBorder(server, 0, false);
-                    Config.INSTANCE.currentLevel = 0;
+                    for (ServerPlayer playerToTP : server.getPlayerList().getPlayers()) {
+                        if (playerToTP == player);
+                        if (SafeSpawn.isOutSide(playerToTP)) {
+                            SafeSpawn.tpToSafeSpawn(playerToTP);
+                        }
+                    }
                 }
             }
         }
