@@ -24,8 +24,8 @@ public class Info {
         MassageBuilder.send(context,"You can change these settings using commands before enabling the mod.");
 
 
+        /*              Old Info Massage
 
-        /*
         MassageBuilder.send(context,"World settings from {}:",MassageBuilder.text("[Level = Border Revamped]"));
         MassageBuilder.send(context," - {} is {}",MassageBuilder.text("[Level = Border Revamped]"),MassageBuilder.bool(Config.INSTANCE.Enabled));
         MassageBuilder.send(context," - {} is {}", MassageBuilder.text("ResetBorderByDeath"),MassageBuilder.bool(Config.INSTANCE.ResetBorderByDeath));

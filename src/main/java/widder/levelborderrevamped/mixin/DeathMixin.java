@@ -29,7 +29,7 @@ public class DeathMixin {
                 if (Config.INSTANCE.ResetBorderByDeath) {
                     FakeBorder.setBorder(server, 0, false);
                     for (ServerPlayer playerToTP : server.getPlayerList().getPlayers()) {
-                        if (playerToTP == player);
+                        if (playerToTP == player) continue;
                         if (SafeSpawn.isOutSide(playerToTP)) {
                             SafeSpawn.tpToSafeSpawn(playerToTP);
                         }

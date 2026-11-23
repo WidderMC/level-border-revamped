@@ -20,10 +20,10 @@ public class SafeSpawn {
         level.getChunk(spawn);
 
         BlockPos.MutableBlockPos pos = spawn.mutable();
-        while (isFree(level,pos)) {
+        while (isFree(level,pos) && pos.getY() > level.getMinY()) {
             pos.move(Direction.DOWN);
         }
-        while (!isFree(level, pos)) {
+        while (!isFree(level, pos) && pos.getY() < level.getMaxY()) {
             pos.move(Direction.UP);
         }
         return Vec3.atBottomCenterOf(pos);

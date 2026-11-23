@@ -1,6 +1,7 @@
 package widder.levelborderrevamped.commands;
 
 import com.mojang.brigadier.arguments.BoolArgumentType;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.commands.Commands;
 
@@ -15,12 +16,12 @@ public class CommandsRegister {
                         .then(Commands.literal("Info")
                                 .executes(context -> Info.InfoCommand(context)))
 
-                        .then(Commands.literal("ResetXPAfterDeath")
+                        .then(Commands.literal("ResetXPbyDeath")
                                 .executes(context ->
-                                        ResetXPAfterDeath.ResetXPAfterDeathCommand(context,true,false))
+                                        ResetXPbyDeath.ResetXPAfterDeathCommand(context,true,false))
                                 .then(Commands.argument("value", BoolArgumentType.bool())
                                         .executes(context ->
-                                                ResetXPAfterDeath.ResetXPAfterDeathCommand(
+                                                ResetXPbyDeath.ResetXPAfterDeathCommand(
                                                         context,false, BoolArgumentType.getBool(context,"value")))))
 
                         .then(Commands.literal("ResetBorderByDeath")
@@ -38,6 +39,30 @@ public class CommandsRegister {
                                         .executes(context ->
                                                 EnableMod.EnableModCommand(
                                                         context,false,BoolArgumentType.getBool(context,"value")))))
+
+                        .then(Commands.literal("OriginalNetherBorder")
+                                .executes(context ->
+                                        OriginalNetherBorder.OriginalNetherBorderCommand(context,true,false))
+                                .then(Commands.argument("value",BoolArgumentType.bool())
+                                        .executes(context ->
+                                                OriginalNetherBorder.OriginalNetherBorderCommand(
+                                                        context,false,BoolArgumentType.getBool(context,"value")))))
+
+                        .then(Commands.literal("StartSize")
+                                .executes(context ->
+                                        StartSize.StartSizeCommand(context,true,0))
+                                .then(Commands.argument("value", IntegerArgumentType.integer(1))
+                                        .executes(context ->
+                                                StartSize.StartSizeCommand(
+                                                        context,false,IntegerArgumentType.getInteger(context,"value")))))
+
+                        .then(Commands.literal("BlocksPerLevel")
+                                .executes(context ->
+                                        BlocksPerLevel.BlocksPerLevelCommand(context,true,0))
+                                .then(Commands.argument("value",IntegerArgumentType.integer(1))
+                                        .executes(context ->
+                                                BlocksPerLevel.BlocksPerLevelCommand(
+                                                        context,false,IntegerArgumentType.getInteger(context,"value")))))
 
                         .then(Commands.literal("AutoExpand")
                                 .executes(context ->

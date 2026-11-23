@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 import widder.levelborderrevamped.commands.CommandsRegister;
 
 public class LevelBorderRevamped implements ModInitializer {
-	public static final String MOD_ID = "level--border-revamped";
+	public static final String MOD_ID = "level=border-revamped";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-	public static final String VERSION = "0.0.2";
+	public static final String VERSION = "0.2.0";
 
 	private static MinecraftServer SERVER;
 	public static MinecraftServer getServer() { return SERVER; }
@@ -58,7 +58,3 @@ public class LevelBorderRevamped implements ModInitializer {
 		LOGGER.info("[Level = Border Revamped] loaded successfully");
 	}
 }
-/*
-ToDo´s
-- Commands
- */

@@ -25,7 +25,6 @@ public class XPManager {
             MaxXPInt = Config.INSTANCE.GlobalXp;
         }
 
-        BlockPos spawn = server.overworld().getRespawnData().pos();
         for (ServerPlayer player : players) {
             player.experienceLevel = 0;
             player.experienceProgress = 0;
@@ -34,7 +33,7 @@ public class XPManager {
                 player.giveExperiencePoints(0);
                 Config.INSTANCE.GlobalXp = 0;
                 if (Config.INSTANCE.ResetBorderByDeath) {
-                    player.teleportTo(server.overworld(),spawn.getX()+0.5,spawn.getY(),spawn.getZ()+0.5, Set.of(),player.getYRot(),player.getXRot(),true);
+                    //Muss Hier was hinn?
                 }
             }else {
                 player.giveExperiencePoints(MaxXPInt);
