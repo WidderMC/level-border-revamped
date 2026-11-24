@@ -2,6 +2,7 @@ package widder.levelborderrevamped.commands;
 
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.commands.Commands;
 
@@ -34,11 +35,14 @@ public class CommandsRegister {
 
                         .then(Commands.literal("EnableMod")
                                 .executes(context ->
-                                        EnableMod.EnableModCommand(context,true,false))
+                                        EnableMod.EnableModCommand(context,true,false,""))
                                 .then(Commands.argument("value", BoolArgumentType.bool())
                                         .executes(context ->
                                                 EnableMod.EnableModCommand(
-                                                        context,false,BoolArgumentType.getBool(context,"value")))))
+                                                        context,false,BoolArgumentType.getBool(context,"value"),"")))
+                                .then(Commands.literal("confirm")
+                                        .executes(context ->
+                                                EnableMod.EnableModCommand(context,false,true,"confirm"))))
 
                         .then(Commands.literal("OriginalNetherBorder")
                                 .executes(context ->

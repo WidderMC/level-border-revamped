@@ -1,13 +1,11 @@
 package widder.levelborderrevamped;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 
 public class XPManager {
 
@@ -52,5 +50,36 @@ public class XPManager {
         List<ServerPlayer> players = server.getPlayerList().getPlayers();
         if (players.isEmpty()) return Config.INSTANCE.CurrentLevel;
         return players.get(0).experienceLevel;
+    }
+
+    public static void SpendLevels(ServerPlayer spender,int levels) {
+        if (!Config.INSTANCE.Enabled || levels <=0) return;
+        MinecraftServer server = spender.level().getServer();
+        if (server == null) return;
+        Config.INSTANCE.GlobalXp = totalXPOF(spender);
+
+        for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+            player.totalExperience = 0;
+        }
+        MergeXP(server,false,spender);
+
+        int newLevel = Math.max(0,Config.INSTANCE.CurrentLevel - levels);
+        if (newLevel != Config.INSTANCE.CurrentLevel) {
+            FakeBorder.setBorder(server,newLevel,true);
+        }
+    }
+
+    private static int totalXPOF(ServerPlayer sender){
+        int points = 0;
+        for (int lvl = 0; lvl < sender.experienceProgress * xpNeededFor(sender.experienceLevel); lvl ++) {
+            points += xpNeededFor(lvl);
+        }
+        return points + Math.round(sender.experienceProgress * xpNeededFor(sender.experienceLevel));
+    }
+
+    private static int xpNeededFor(int level) {
+        if (level >= 30) return 112 * (level - 30) * 9;
+        if (level >= 15) return  37 + (level - 15) * 5;
+        return 7 + level * 2;
     }
 }

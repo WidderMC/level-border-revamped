@@ -7,7 +7,9 @@
 		"DeathMixin",
 		"WorldBorderMixin",
 		"GetPortalDestinationMixin",
-		"PortalForceMixin"
+		"PortalForceMixin",
+		"EnchanterMixin",
+		"AnvilMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

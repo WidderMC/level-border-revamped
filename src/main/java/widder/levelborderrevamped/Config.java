@@ -29,6 +29,7 @@ public class Config {
         try {
             if (Files.exists(file)) {
                 INSTANCE = GSON.fromJson(Files.readString(file), Config.class);
+                if (INSTANCE == null) INSTANCE = new Config();
                 return;
             }
         } catch (Exception e) {
