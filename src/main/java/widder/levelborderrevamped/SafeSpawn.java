@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.phys.Vec3;
 
@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class SafeSpawn {
     private static boolean isFree(ServerLevel level,BlockPos pos) {
-        return level.noCollision(null, EntityType.PLAYER.getDimensions().makeBoundingBox(pos.getBottomCenter()),true);
+        return level.noCollision(null, EntityTypes.PLAYER.getDimensions().makeBoundingBox(Vec3.atBottomCenterOf(pos)),true);
     }
 
     private static Vec3 findSafeSpawn(ServerLevel level) {
